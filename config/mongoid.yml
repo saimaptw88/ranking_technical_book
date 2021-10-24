@@ -1,0 +1,20 @@
+development:
+  clients:
+    default:
+      database: ranking_technical_book_development
+      hosts:
+        - localhost:27017
+      options:
+        server_selection_timeout: 1
+  options:
+
+test:
+  clients:
+    default:
+      database: ranking_technical_book_test
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
