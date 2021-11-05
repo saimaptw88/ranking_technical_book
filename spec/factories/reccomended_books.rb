@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :reccomended_book do
-    article_count { Faker::Number.number(digits: 2) }
+    title { Faker::Company.name }
 
     trait :with_qiita_article do
       after(:create) {|i| create(:qiita_article, reccomended_book: i) }
