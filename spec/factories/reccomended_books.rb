@@ -4,9 +4,12 @@ FactoryBot.define do
     point_until_last_year { Faker::Number.number(digits: 3) }
     yearly_point { Faker::Number.number(digits: 3) }
     monthly_point { Faker::Number.number(digits: 3) }
+
     sequence(:total_ranking) {|n| n }
     sequence(:yearly_ranking) {|n| n }
     sequence(:monthly_ranking) {|n| n }
+
+    amazon_affiliate
 
     trait :with_qiita_article do
       after(:create) do |i|
