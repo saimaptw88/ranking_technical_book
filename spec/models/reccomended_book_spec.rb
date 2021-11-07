@@ -3,6 +3,12 @@ require "rails_helper"
 RSpec.describe ReccomendedBook, type: :model do
   describe "field check" do
     it { is_expected.to have_field(:title).of_type(String) }
+    it { is_expected.to have_field(:point_until_last_year).of_type(Integer).with_default_value_of(0) }
+    it { is_expected.to have_field(:yearly_point).of_type(Integer).with_default_value_of(0) }
+    it { is_expected.to have_field(:monthly_point).of_type(Integer).with_default_value_of(0) }
+    it { is_expected.to have_field(:total_ranking).of_type(Integer) }
+    it { is_expected.to have_field(:yearly_ranking).of_type(Integer) }
+    it { is_expected.to have_field(:monthly_ranking).of_type(Integer) }
   end
 
   describe "validation check" do
@@ -12,6 +18,33 @@ RSpec.describe ReccomendedBook, type: :model do
       it "error create document" do
         expect(reccomended_book).to be_invalid
       end
+    end
+
+    context "point_until_last_year" do
+      it { is_expected.to validate_presence_of(:point_until_last_year) }
+      it { is_expected.to validate_numericality_of(:point_until_last_year).greater_than_or_equal_to(0) }
+    end
+
+    context "yearly_point" do
+      it { is_expected.to validate_presence_of(:yearly_point) }
+      it { is_expected.to validate_numericality_of(:yearly_point).greater_than_or_equal_to(0) }
+    end
+
+    context "monthly_point" do
+      it { is_expected.to validate_presence_of(:monthly_point) }
+      it { is_expected.to validate_numericality_of(:monthly_point).greater_than_or_equal_to(0) }
+    end
+
+    context "total_ranking" do
+      it { is_expected.to validate_uniqueness_of(:total_ranking).scoped_to(:reccomend_book_id) }
+    end
+
+    context "yearly_ranking" do
+      it { is_expected.to validate_uniqueness_of(:yearly_ranking).scoped_to(:reccomend_book_id) }
+    end
+
+    context "monthly_ranking" do
+      it { is_expected.to validate_uniqueness_of(:monthly_ranking).scoped_to(:reccomend_book_id) }
     end
 
     context "no qiita_article" do
@@ -38,17 +71,6 @@ RSpec.describe ReccomendedBook, type: :model do
 
     context "qiita_tags" do
       it { is_expected.to embed_many(:qiita_tags) }
-    end
-  end
-
-  describe "mothods check" do
-    context "article_count" do
-      subject(:reccomended_book) { create(:reccomended_book, :with_qiita_article) }
-
-      it "success execute" do
-        subject
-        expect(reccomended_book.article_count).to eq 1
-      end
     end
   end
 end
