@@ -30,6 +30,7 @@ class ReccomendedBook
   has_and_belongs_to_many :qiita_articles, inverse_of: nil
   # rubocop:enable Rails/HasAndBelongsToMany
   embeds_many :qiita_tags
+  has_one :amazon_affiliate, dependent: :destroy
 
   def article_count
     self.qiita_articles.count

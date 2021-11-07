@@ -72,5 +72,9 @@ RSpec.describe ReccomendedBook, type: :model do
     context "qiita_tags" do
       it { is_expected.to embed_many(:qiita_tags) }
     end
+
+    context "ammazon_affiliate" do
+      it { is_expected.to have_one(:amazon_affiliate).with_dependent(:destroy) }
+    end
   end
 end
