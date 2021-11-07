@@ -12,15 +12,10 @@ RSpec.describe QiitaArticle, type: :model do
 
     it {
       expect(subject).to validate_numericality_of(:lgtm_count).
-                           greater_than_or_equal_to(0).to_allow(only_integer: true, nil: false)
+                           greater_than_or_equal_to(0).to_allow(only_integer: true)
     }
 
+    it { is_expected.to validate_presence_of(:lgtm_count) }
     it { is_expected.to validate_presence_of(:created_at) }
-  end
-
-  describe "association check" do
-    context "reccomended_book" do
-      it { is_expected.to belong_to(:reccomended_book).as_inverse_of(:qiita_articles) }
-    end
   end
 end

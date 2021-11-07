@@ -5,8 +5,8 @@ class ReccomendedBook
   # バリデーション
   validates :title, presence: true
   # アソシエーション
-  has_many :qiita_articles, dependent: :destroy
-  has_many :qiita_tags, dependent: :destroy
+  has_and_belongs_to_many :qiita_articles, inverse_of: nil
+  embeds_many :qiita_tags
 
   def article_count
     self.qiita_articles.count

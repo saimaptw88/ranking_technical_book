@@ -33,11 +33,22 @@ RSpec.describe ReccomendedBook, type: :model do
 
   describe "association check" do
     context "qiita_articles" do
-      it { is_expected.to have_many(:qiita_articles).with_dependent(:destroy) }
+      it { is_expected.to have_and_belong_to_many(:qiita_articles) }
     end
 
     context "qiita_tags" do
-      it { is_expected.to have_many(:qiita_tags).with_dependent(:destroy) }
+      it { is_expected.to embed_many(:qiita_tags) }
+    end
+  end
+
+  describe "mothods check" do
+    context "article_count" do
+      subject(:reccomended_book) { create(:reccomended_book, :with_qiita_article) }
+
+      it "success execute" do
+        subject
+        expect(reccomended_book.article_count).to eq 1
+      end
     end
   end
 end
