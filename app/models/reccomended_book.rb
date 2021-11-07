@@ -11,6 +11,11 @@ class ReccomendedBook
   field :yearly_ranking, type: Integer
   field :monthly_ranking, type: Integer
 
+  # インデックス
+  index({ total_ranking: 1 }, { unique: true })
+  index({ yearly_ranking: 1 }, { unique: true })
+  index({ monthly_ranking: 1 }, { unique: true })
+
   # バリデーション
   validates :title, presence: true
   validates :point_until_last_year, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
