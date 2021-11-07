@@ -10,6 +10,12 @@ RSpec.describe AmazonAffiliate, type: :model do
   end
 
   describe "assosiation check" do
-    it { is_expected.to belong_to(:reccomended_book) }
+    context "reccomended_book" do
+      it { is_expected.to belong_to(:reccomended_book) }
+    end
+
+    context "amazon_affiliate_tag" do
+      it { is_expected.to embed_many(:amazon_affiliate_tags) }
+    end
   end
 end

@@ -7,4 +7,5 @@ class AmazonAffiliate
   field :publication_data, type: Time
 
   belongs_to :reccomended_book
+  embeds_many :amazon_affiliate_tags
 end
