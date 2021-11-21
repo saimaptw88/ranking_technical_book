@@ -56,6 +56,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    amazon-ecs (2.6.0)
+      nokogiri (~> 1.10)
     ast (2.4.2)
     bindex (0.8.1)
     bootsnap (1.9.1)
@@ -252,6 +254,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
+  amazon-ecs
   bootsnap (>= 1.4.2)
   byebug
   factory_bot_rails
