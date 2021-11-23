@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :reccomended_book do
     title { Faker::Company.name }
+    isbn { Faker::Number.number(digits: 13) }
     point_until_last_year { Faker::Number.number(digits: 3) }
     yearly_point { Faker::Number.number(digits: 3) }
     monthly_point { Faker::Number.number(digits: 3) }

@@ -19,10 +19,20 @@ gem "jbuilder", "~> 2.7"
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+
+# https://github.com/jugend/amazon-ecs
 gem "amazon-ecs"
+
 gem "dotenv-rails", groups: [:development, :test]
 gem "mongoid", "~> 7.0.5"
+
+# https://github.com/dkam/paapi
 gem "paapi"
+
+# https://github.com/ryosuke-endo/open_bd
+gem "open_bd"
+
+gem "httparty"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false

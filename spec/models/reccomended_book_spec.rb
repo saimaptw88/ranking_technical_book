@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe ReccomendedBook, type: :model do
   describe "field check" do
     it { is_expected.to have_field(:title).of_type(String) }
+    it { is_expected.to have_field(:isbn).of_type(Integer) }
     it { is_expected.to have_field(:point_until_last_year).of_type(Integer).with_default_value_of(0) }
     it { is_expected.to have_field(:yearly_point).of_type(Integer).with_default_value_of(0) }
     it { is_expected.to have_field(:monthly_point).of_type(Integer).with_default_value_of(0) }
@@ -18,6 +19,10 @@ RSpec.describe ReccomendedBook, type: :model do
       it "error create document" do
         expect(reccomended_book).to be_invalid
       end
+    end
+
+    context "isbm" do
+      it { is_expected.to validate_presence_of(:isbn) }
     end
 
     context "point_until_last_year" do
