@@ -29,9 +29,6 @@ gem "mongoid", "~> 7.0.5"
 # https://github.com/dkam/paapi
 gem "paapi"
 
-# https://github.com/ryosuke-endo/open_bd
-gem "open_bd"
-
 gem "httparty"
 
 # Reduces boot times through caching; required in config/boot.rb
