@@ -20,7 +20,6 @@ class ReccomendedBook
 
   # バリデーション
   validates :title, presence: true
-  validates :isbn, presence: true
   validates :point_until_last_year, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :yearly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :monthly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
