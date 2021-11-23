@@ -4,6 +4,7 @@ class ReccomendedBook
 
   # フィールド
   field :title, type: String
+  field :isbn, type: Integer
   field :point_until_last_year, type: Integer, default: 0
   field :yearly_point, type: Integer, default: 0
   field :monthly_point, type: Integer, default: 0
@@ -12,12 +13,14 @@ class ReccomendedBook
   field :monthly_ranking, type: Integer
 
   # インデックス
+  index({ isbn: 1 }, { unique: true })
   index({ total_ranking: 1 }, { unique: true })
   index({ yearly_ranking: 1 }, { unique: true })
   index({ monthly_ranking: 1 }, { unique: true })
 
   # バリデーション
   validates :title, presence: true
+  validates :isbn, presence: true
   validates :point_until_last_year, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :yearly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :monthly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
