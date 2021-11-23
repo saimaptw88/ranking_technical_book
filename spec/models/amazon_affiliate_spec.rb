@@ -6,7 +6,8 @@ RSpec.describe AmazonAffiliate, type: :model do
     it { is_expected.to have_field(:author).of_type(String) }
     it { is_expected.to have_field(:explanation).of_type(String) }
     it { is_expected.to have_field(:thumbnail_url).of_type(String) }
-    it { is_expected.to have_field(:publication_data).of_type(Time) }
+    it { is_expected.to have_field(:thumbnail_url_small).of_type(String) }
+    it { is_expected.to have_field(:publication_data).of_type(String) }
   end
 
   describe "assosiation check" do
