@@ -21,10 +21,6 @@ RSpec.describe ReccomendedBook, type: :model do
       end
     end
 
-    context "isbm" do
-      it { is_expected.to validate_presence_of(:isbn) }
-    end
-
     context "point_until_last_year" do
       it { is_expected.to validate_presence_of(:point_until_last_year) }
       it { is_expected.to validate_numericality_of(:point_until_last_year).greater_than_or_equal_to(0) }
