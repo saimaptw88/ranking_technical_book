@@ -3,45 +3,64 @@ require "uri"
 class TechnicalBooksSearchApi
   # command bundle exec rails runner TechnicalBooksSearchApi.execute
   def self.execute
-    start_index = 0
-    max_results = 15
-    keyword = "プログラミング"
-    keyword = URI.encode_www_form_component(keyword)
+    max_results = 40
+    keywords = ["プログラミング", "Ruby", "Javascript", "Python", "HTML", "CSS", "PHP", "Swift", "java", "C", "C++", "C#", "AWS", "GCP"]
 
-    url = "https://www.googleapis.com/books/v1/volumes?q=#{keyword}&maxResults=#{max_results}&startIndex=#{start_index}&printType=books&key=#{ENV["GCP_API_KEY"]}"
-    TechnicalBooksSearchApi.update_book(url: url)
-
-    # while(10) do
-    #   url = "https://www.googleapis.com/books/v1/volumes?q=#{keyword}&maxResults=#{max_results}&startIndex=#{start_index}&printType=books&key=#{ENV["GCP_API_KEY"]}"
-    #   TechnicalBooksSearchApi.update_book(url: url)
-    #   start_index += max_results
-    # end
+    keywords.each do |keyword|
+      start_index = 0
+      keyword = URI.encode_www_form_component(keyword)
+      1000.times do
+        url = "https://www.googleapis.com/books/v1/volumes?q=#{keyword}&maxResults=#{max_results}&startIndex=#{start_index}&printType=books&key=#{ENV["GCP_API_KEY"]}"
+        TechnicalBooksSearchApi.update_book(url: url)
+        start_index += max_results
+      end
+    end
   end
 
   # https://medium.com/@akramhelil/google-books-api-with-rails-or-ruby-a931cece427a
   def self.update_book(url:)
-    responce = HTTParty.get(url)
-    results = responce.parsed_response["items"]
+    # responce = HTTParty.get(url)
+    # results = responce.parsed_response["items"]
 
-    results.each do |result|
-      break if result.blank?
+    # return if results.blank?
 
-      result = result["volumeInfo"]
+    # results.each do |result|
+    #   next if result.blank?
 
-      title = result["title"]
+    #   result = result["volumeInfo"]
 
-      next if ReccomendedBook.pluck(:title).include?(title)
+    #   next if result.blank?
 
-      isbn = (res = result["industryIdentifiers"]).nil? ? nil : res.select {|i| i.values.include?("ISBN_13") } [0]["identifier"].to_i
+    #   title = result["title"]
 
-      book = ReccomendedBook.create!(amazon_affiliate: AmazonAffiliate.create,
-                                     isbn: isbn,
-                                     title: title)
-      book.amazon_affiliate.update!(author: result["authors"],
-                                    publication_data: result["publishedDate"],
-                                    explanation: result["description"],
-                                    thumbnail_url: result["imageLinks"]["thumbnail"],
-                                    thumbnail_url_small: result["imageLinks"]["smallThumbnail"])
+    #   next if ReccomendedBook.pluck(:title).include?(title)
+
+    #   isbn = if !(res = result["industryIdentifiers"]).nil? && res.select {|i| i.values.include?("ISBN_13") }.present?
+    #            res.select {|i|
+    #              i.values.include?("ISBN_13")
+    #            } [0]["identifier"].to_i
+    #          else
+    #            nil
+    #          end
+    #   image = TechnicalBooksSearchApi.image_params(params: result)
+
+    #   book = ReccomendedBook.create!(amazon_affiliate: AmazonAffiliate.create,
+    #                                  isbn: isbn,
+    #                                  title: title)
+    #   book.amazon_affiliate.update!(author: result["authors"],
+    #                                 publication_data: result["publishedDate"],
+    #                                 explanation: result["description"],
+    #                                 thumbnail_url: image)
+    # end
+  end
+
+  def self.image_params(params:)
+    image = params["imageLinks"]
+
+    if image.present?
+      image["thumbnail"].presence || image["smallThumbnail"]
+    else
+      nil
     end
   end
 

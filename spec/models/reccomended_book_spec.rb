@@ -13,14 +13,6 @@ RSpec.describe ReccomendedBook, type: :model do
   end
 
   describe "validation check" do
-    context "no title" do
-      let(:reccomended_book) { build(:reccomended_book, :with_qiita_article, :with_qiita_tag, title: nil) }
-
-      it "error create document" do
-        expect(reccomended_book).to be_invalid
-      end
-    end
-
     context "point_until_last_year" do
       it { is_expected.to validate_presence_of(:point_until_last_year) }
       it { is_expected.to validate_numericality_of(:point_until_last_year).greater_than_or_equal_to(0) }
