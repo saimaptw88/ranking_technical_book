@@ -4,7 +4,6 @@ class AmazonAffiliate
   field :author, type: String
   field :explanation, type: String
   field :thumbnail_url, type: String
-  field :thumbnail_url_small, type: String
   field :publication_data, type: String
 
   belongs_to :reccomended_book
