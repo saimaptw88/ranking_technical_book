@@ -2,12 +2,7 @@ require "net/http"
 require "json"
 
 class QiitaApi
-  # 記事を取得
-  # 取得した記事に技術書が含まれているかを確認
-  # 技術書が含まれていたらレコードを作成 or 更新
-
   PER_PAGE = 100
-  ACCESS_TOKEN = ENV["QIITA_ACCESS_TOKEN"].freeze
   GET_ITEMS_URI = "https://qiita.com/api/v2/items".freeze
 
   # command bundle exec rails runner QiitaApi.execute
@@ -31,13 +26,19 @@ class QiitaApi
     QiitaArticle.each(&:destroy!)
   end
 
+  # -----------------------------------------------------------
+  #
+  #                     private methods
+  #
+  # -----------------------------------------------------------
+
   # 記事取得
   def self.search_article(query, page:)
     # リクエスト情報を作成
     uri = URI.parse(GET_ITEMS_URI)
     uri.query = URI.encode_www_form({ query: query, per_page: PER_PAGE, page: page })
     req = Net::HTTP::Get.new(uri.request_uri)
-    req["Authorization"] = "Bearer #{ACCESS_TOKEN}"
+    req["Authorization"] = "Bearer #{ENV["QIITA_ACCESS_TOKEN"]}"
 
     # リクエスト送信
     http = Net::HTTP.new(uri.host, uri.port)
