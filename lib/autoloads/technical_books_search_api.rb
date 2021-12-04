@@ -38,12 +38,11 @@ class TechnicalBooksSearchApi
     results.each do |result|
       break if result.blank?
 
-      next if TechnicalBooksSearchApi.title_present?(result: result)
+      TechnicalBooksSearchApi.title_present?(result: result) ? title = result["volumeInfo"]["title"] : next
 
       next if TechnicalBooksSearchApi.title_registered?(title: title)
 
-      title = result["volumeInfo"]["title"]
-      isbn = TechnicalBooksSearchApi.isbn(result: result) if TechnicalBooksSearchApi.isbn_present?(result: result)
+      TechnicalBooksSearchApi.isbn_present?(result: result) ? isbn = TechnicalBooksSearchApi.isbn(result: result) : next
       image = TechnicalBooksSearchApi.thumbnail_image_url(result: result)
 
       book = ReccomendedBook.create!(amazon_affiliate: AmazonAffiliate.create,
