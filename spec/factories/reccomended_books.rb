@@ -10,7 +10,19 @@ FactoryBot.define do
     sequence(:yearly_ranking) {|n| n }
     sequence(:monthly_ranking) {|n| n }
 
-    amazon_affiliate
+    # amazon_affiliate
+
+    # trait :with_amazon_affiliate do
+    #   after(:create) do |i|
+    #     i.amazon_affiliate.new(
+    #       affiliate_url: Faker::Internet.url(host: "example.com"),
+    #       author: Faker::Name.name,
+    #       explanation: Faker::Lorem.sentence(word_count: 10),
+    #       thumbnail_url: Faker::Internet.url(host: "example.com"),
+    #       publication_data: 30.day.ago,
+    #     )
+    #   end
+    # end
 
     trait :with_qiita_article do
       after(:create) do |i|

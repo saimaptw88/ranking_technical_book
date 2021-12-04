@@ -18,4 +18,10 @@ RSpec.describe QiitaArticle, type: :model do
     it { is_expected.to validate_presence_of(:lgtm_count) }
     it { is_expected.to validate_presence_of(:created_at) }
   end
+
+  describe "assosiation check" do
+    context "reccomended_book" do
+      it { is_expected.to belong_to(:reccomended_book) }
+    end
+  end
 end

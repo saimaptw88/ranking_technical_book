@@ -10,9 +10,29 @@ class QiitaApi
   ACCESS_TOKEN = ENV["QIITA_ACCESS_TOKEN"].freeze
   GET_ITEMS_URI = "https://qiita.com/api/v2/items".freeze
 
-  # query = "created:>=2019-04-01 created:<=2019-04-01"
-  # status, next_page, items = QiitaApi.search_article(query)
-  def self.search_article(query, page: 1)
+  # command bundle exec rails runner QiitaApi.execute
+  def self.execute
+    query = "created:>=2021-11-30 created:<=2021-11-30"
+    next_page = 1
+
+    100.times do
+      _status, next_page, items = QiitaApi.search_article(query, page: next_page)
+
+      break if next_page == -1
+
+      items.each do |item|
+        QiitaApi.include_technical_book?(item: item)
+      end
+    end
+  end
+
+  # command bundle exec rails runner QiitaApi.destroy_all
+  def self.destroy_all
+    QiitaArticle.each(&:destroy!)
+  end
+
+  # 記事取得
+  def self.search_article(query, page:)
     # リクエスト情報を作成
     uri = URI.parse(GET_ITEMS_URI)
     uri.query = URI.encode_www_form({ query: query, per_page: PER_PAGE, page: page })
@@ -33,9 +53,10 @@ class QiitaApi
     return res.code.to_i, next_page, JSON.parse(res.body)
   end
 
+  # 記事に技術書が含まれているか確認
   def self.include_technical_book?(item:)
-    ReccomendedBokk.each do |book|
-      next unless item["rendered_body"].include?(book.title)
+    ReccomendedBook.each do |book|
+      next unless item["rendered_body"].include?(book.title) || item["title"].include?(book.title)
 
       book.qiita_articles.create!(title: item["title"], lgtm_count: item["likes_count"], created_at: item["created_at"])
 

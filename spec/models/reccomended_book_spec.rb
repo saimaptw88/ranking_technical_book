@@ -59,7 +59,7 @@ RSpec.describe ReccomendedBook, type: :model do
 
   describe "association check" do
     context "qiita_articles" do
-      it { is_expected.to have_and_belong_to_many(:qiita_articles) }
+      it { is_expected.to have_many(:qiita_articles).with_dependent(:destroy) }
     end
 
     context "qiita_tags" do
