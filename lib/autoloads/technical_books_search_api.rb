@@ -56,7 +56,7 @@ class TechnicalBooksSearchApi
   end
 
   def self.title_present?(result:)
-    result["volumeInfo"].blank? || (result["volumeInfo"]["title"].blank? && result["volumeInfo"]["title"].length < 6)
+    result["volumeInfo"].blank? || result["volumeInfo"]["title"].blank? ? false : result["volumeInfo"]["title"].length < 6
   end
 
   def self.thumbnail_image_url(result:)
