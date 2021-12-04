@@ -13,12 +13,13 @@ class ReccomendedBook
   field :monthly_ranking, type: Integer
 
   # インデックス
-  index({ isbn: 1 }, { unique: true })
+  index({ title: 1 }, { unique: true })
   index({ total_ranking: 1 }, { unique: true })
   index({ yearly_ranking: 1 }, { unique: true })
   index({ monthly_ranking: 1 }, { unique: true })
 
   # バリデーション
+  validates :title, presence: true, uniqueness: true, length: { minimum: 6 }
   validates :point_until_last_year, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :yearly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :monthly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -27,9 +28,7 @@ class ReccomendedBook
   validates :monthly_ranking, uniqueness: { scope: [:reccomend_book_id] }, if: -> { monthly_ranking.present? }
 
   # アソシエーション
-  # rubocop:disable Rails/HasAndBelongsToMany
-  has_and_belongs_to_many :qiita_articles, inverse_of: nil
-  # rubocop:enable Rails/HasAndBelongsToMany
+  has_many :qiita_articles, dependent: :destroy
   embeds_many :qiita_tags
   has_one :amazon_affiliate, dependent: :destroy
 
