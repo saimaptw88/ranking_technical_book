@@ -6,8 +6,9 @@ class QiitaApi
   GET_ITEMS_URI = "https://qiita.com/api/v2/items".freeze
 
   # command bundle exec rails runner QiitaApi.execute
+  # note : 日を跨いだら昨日一日分の記事をバッチ処理
   def self.execute
-    query = "created:>=2021-11-30 created:<=2021-11-30"
+    query = "created:>=#{Time.current.beginning_of_day - 1.days} created:<#{Time.current.beginning_of_day}"
     next_page = 1
 
     100.times do
@@ -26,6 +27,22 @@ class QiitaApi
     QiitaArticle.each(&:destroy!)
   end
 
+  # command bundle exec rails runner QiitaApi.first_batch
+  # note : バッチ処理実行前に実行する && 実行に日を跨がないよう注意
+  def self.first_batch
+    query = "created:<#{Time.current.beginning_of_day - 1.days}"
+    next_page = 1
+
+    1000.times do
+      _status, next_page, items = QiitaApi.search_article(query, page: next_page)
+
+      break if next_page == -1
+
+      items.each do |item|
+        QiitaApi.include_technical_book?(item: item)
+      end
+    end
+  end
   # -----------------------------------------------------------
   #
   #                     private methods
