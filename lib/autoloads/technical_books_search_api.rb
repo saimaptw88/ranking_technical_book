@@ -70,7 +70,6 @@ class TechnicalBooksSearchApi
   end
 
   def self.isbn_present?(result:)
-    # !result["industryIdentifiers"].nil? && result["industryIdentifiers"].select {|i| i.values.include?("ISBN_13") }.present?
     !result["industryIdentifiers"].nil? && TechnicalBooksSearchApi.isbn(result: result).present?
   end
 
