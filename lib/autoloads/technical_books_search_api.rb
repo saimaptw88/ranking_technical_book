@@ -31,7 +31,6 @@ class TechnicalBooksSearchApi
   #
   # -----------------------------------------------------------
 
-
   def self.update_book(url:)
     responce = HTTParty.get(url)
 

@@ -1,41 +1,39 @@
 require "rails_helper"
 
 describe TechnicalBooksSearchApi do
-
   let(:result) do
-    {"title"=>"Rails5",
-      "subtitle"=>"5.2対応",
-      "authors"=>["大場寧子", "松本拓也", "櫻井達生", "小田井優", "大塚隆弘", "依光奏江", "銭神裕宜", "小芝美由紀"],
-      "publishedDate"=>"2018-10",
-      "description"=>"Railsアプリの基本から実践的なノウハウまでこの1冊で!",
-      "industryIdentifiers"=>[{"type"=>"ISBN_10", "identifier"=>"4839962227"}, {"type"=>"ISBN_13", "identifier"=>"9784839962227"}],
-      "readingModes"=>{"text"=>false, "image"=>false},
-      "pageCount"=>480,
-      "printType"=>"BOOK",
-      "maturityRating"=>"NOT_MATURE",
-      "allowAnonLogging"=>false,
-      "contentVersion"=>"preview-1.0.0",
-      "panelizationSummary"=>{"containsEpubBubbles"=>false, "containsImageBubbles"=>false},
-      "imageLinks"=>
-       {"smallThumbnail"=>"http://books.google.com/books/content?id=bP46vQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"},
-    }
+    { "title" => "Rails5",
+      "subtitle" => "5.2対応",
+      "authors" => ["大場寧子", "松本拓也", "櫻井達生", "小田井優", "大塚隆弘", "依光奏江", "銭神裕宜", "小芝美由紀"],
+      "publishedDate" => "2018-10",
+      "description" => "Railsアプリの基本から実践的なノウハウまでこの1冊で!",
+      "industryIdentifiers" => [{ "type" => "ISBN_10", "identifier" => "4839962227" }, { "type" => "ISBN_13", "identifier" => "9784839962227" }],
+      "readingModes" => { "text" => false, "image" => false },
+      "pageCount" => 480,
+      "printType" => "BOOK",
+      "maturityRating" => "NOT_MATURE",
+      "allowAnonLogging" => false,
+      "contentVersion" => "preview-1.0.0",
+      "panelizationSummary" => { "containsEpubBubbles" => false, "containsImageBubbles" => false },
+      "imageLinks" =>
+       { "smallThumbnail" => "http://books.google.com/books/content?id=bP46vQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api" } }
   end
 
   # 未実装
-  describe ".execute" do
-    subject { TechnicalBooksSearchApi.execute }
+  # describe ".execute" do
+  #   subject { TechnicalBooksSearchApi.execute }
 
-    before { ReccomendedBook.destroy_all }
-  end
+  #   before { ReccomendedBook.destroy_all }
+  # end
 
-  # 未実装
-  describe ".update_book(url:)" do
-    subject { TechnicalBooksSearchApi.update_book(url: url) }
+  # # 未実装
+  # describe ".update_book(url:)" do
+  #   subject { TechnicalBooksSearchApi.update_book(url: url) }
 
-    before { ReccomendedBook.destroy_all }
+  #   before { ReccomendedBook.destroy_all }
 
-    let(:url){ "https://www.googleapis.com/books/v1/volumes?q=rails&maxResults=1&startIndex=1&printType=books&key=#{ENV["GCP_API_KEY"]}" }
-  end
+  #   let(:url) { "https://www.googleapis.com/books/v1/volumes?q=rails&maxResults=1&startIndex=1&printType=books&key=#{ENV["GCP_API_KEY"]}" }
+  # end
 
   describe ".destroy_all" do
     subject { TechnicalBooksSearchApi.destroy_all }
@@ -48,7 +46,7 @@ describe TechnicalBooksSearchApi do
     end
 
     it "レコードを全て削除できる" do
-      expect{subject}.to change { ReccomendedBook.count }.by(-3) && change { AmazonAffiliate.count }.by(-3)
+      expect { subject }.to change { ReccomendedBook.count }.by(-3) && change { AmazonAffiliate.count }.by(-3)
     end
   end
 
@@ -64,7 +62,7 @@ describe TechnicalBooksSearchApi do
     end
 
     context "title が存在しない場合" do
-      let(:result) { {"rails"=>"",} }
+      let(:result) { { "rails" => "" } }
 
       it "false" do
         expect(subject).to eq false
@@ -72,7 +70,7 @@ describe TechnicalBooksSearchApi do
     end
 
     context "title の文字数が6文字未満の場合" do
-      let(:result) { {"title"=>"Rails",} }
+      let(:result) { { "title" => "Rails" } }
 
       it "false" do
         expect(subject).to eq false
@@ -92,7 +90,7 @@ describe TechnicalBooksSearchApi do
     end
 
     context "image が存在しな場合" do
-      let(:result) { {"title"=>"Rails",} }
+      let(:result) { { "title" => "Rails" } }
 
       it "nil を返す" do
         expect(subject).to eq nil
@@ -137,7 +135,7 @@ describe TechnicalBooksSearchApi do
     end
 
     context "isbn が存在しない場合" do
-      let(:result) { {"title"=>"Rails",} }
+      let(:result) { { "title" => "Rails" } }
 
       it "false" do
         expect(subject).to eq false
@@ -145,7 +143,7 @@ describe TechnicalBooksSearchApi do
     end
 
     context "isbn13 が存在しない場合" do
-      let(:result) { {"industryIdentifiers"=>[{"type"=>"ISBN_10", "identifier"=>"4839962227"}] } }
+      let(:result) { { "industryIdentifiers" => [{ "type" => "ISBN_10", "identifier" => "4839962227" }] } }
 
       it "false" do
         expect(subject).to eq false
