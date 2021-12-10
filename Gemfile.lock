@@ -304,6 +304,7 @@ DEPENDENCIES
   mongoid (~> 7.0.5)
   mongoid-rspec
   paapi
+  parallel
   pry-byebug
   pry-doc
   pry-rails

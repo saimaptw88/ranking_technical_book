@@ -1,5 +1,6 @@
 require "uri"
 
+# url = "https://www.googleapis.com/books/v1/volumes?q=rails&maxResults=1&startIndex=1&printType=books&key=#{ENV["GCP_API_KEY"]}"
 class TechnicalBooksSearchApi
   # command bundle exec rails runner TechnicalBooksSearchApi.execute
   def self.execute
@@ -36,14 +37,13 @@ class TechnicalBooksSearchApi
     return nil if (results = responce.parsed_response["items"]).blank?
 
     results.each do |result|
-      break if result.blank?
+      break unless result.present? && (result = result["volumeInfo"]).present?
 
-      next if TechnicalBooksSearchApi.title_present?(result: result)
+      TechnicalBooksSearchApi.title_present?(result: result) ? title = result["title"] : next
 
       next if TechnicalBooksSearchApi.title_registered?(title: title)
 
-      title = result["volumeInfo"]["title"]
-      isbn = TechnicalBooksSearchApi.isbn(result: result) if TechnicalBooksSearchApi.isbn_present?(result: result)
+      TechnicalBooksSearchApi.isbn_present?(result: result) ? isbn = TechnicalBooksSearchApi.isbn13(result: result) : next
       image = TechnicalBooksSearchApi.thumbnail_image_url(result: result)
 
       book = ReccomendedBook.create!(amazon_affiliate: AmazonAffiliate.create,
@@ -57,7 +57,7 @@ class TechnicalBooksSearchApi
   end
 
   def self.title_present?(result:)
-    result["volumeInfo"].blank? || (result["volumeInfo"]["title"].blank? && result["volumeInfo"]["title"].length < 6)
+    result["title"].present? && result["title"].length >= 6
   end
 
   def self.thumbnail_image_url(result:)
@@ -70,11 +70,10 @@ class TechnicalBooksSearchApi
   end
 
   def self.isbn_present?(result:)
-    # !result["industryIdentifiers"].nil? && result["industryIdentifiers"].select {|i| i.values.include?("ISBN_13") }.present?
-    !result["industryIdentifiers"].nil? && TechnicalBooksSearchApi.isbn(result: result).present?
+    result["industryIdentifiers"].present? && TechnicalBooksSearchApi.isbn13(result: result).present?
   end
 
-  def self.isbn(result:)
+  def self.isbn13(result:)
     result["industryIdentifiers"].select {|i| i.values.include?("ISBN_13") }
   end
 end
