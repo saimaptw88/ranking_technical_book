@@ -5,7 +5,7 @@ class ReccomendedBook
   # フィールド
   field :title, type: String
   field :isbn, type: Integer
-  field :point_until_last_year, type: Integer, default: 0
+  field :total_point, type: Integer, default: 0
   field :yearly_point, type: Integer, default: 0
   field :monthly_point, type: Integer, default: 0
   field :total_ranking, type: Integer
@@ -20,7 +20,7 @@ class ReccomendedBook
 
   # バリデーション
   validates :title, presence: true, uniqueness: true, length: { minimum: 6 }
-  validates :point_until_last_year, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :total_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :yearly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :monthly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :total_ranking, uniqueness: { scope: [:reccomend_book_id] }, if: -> { total_ranking.present? }

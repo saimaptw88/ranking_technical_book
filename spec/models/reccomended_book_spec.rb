@@ -4,7 +4,7 @@ RSpec.describe ReccomendedBook, type: :model do
   describe "field check" do
     it { is_expected.to have_field(:title).of_type(String) }
     it { is_expected.to have_field(:isbn).of_type(Integer) }
-    it { is_expected.to have_field(:point_until_last_year).of_type(Integer).with_default_value_of(0) }
+    it { is_expected.to have_field(:total_point).of_type(Integer).with_default_value_of(0) }
     it { is_expected.to have_field(:yearly_point).of_type(Integer).with_default_value_of(0) }
     it { is_expected.to have_field(:monthly_point).of_type(Integer).with_default_value_of(0) }
     it { is_expected.to have_field(:total_ranking).of_type(Integer) }
@@ -14,8 +14,8 @@ RSpec.describe ReccomendedBook, type: :model do
 
   describe "validation check" do
     context "point_until_last_year" do
-      it { is_expected.to validate_presence_of(:point_until_last_year) }
-      it { is_expected.to validate_numericality_of(:point_until_last_year).greater_than_or_equal_to(0) }
+      it { is_expected.to validate_presence_of(:total_point) }
+      it { is_expected.to validate_numericality_of(:total_point).greater_than_or_equal_to(0) }
     end
 
     context "yearly_point" do
