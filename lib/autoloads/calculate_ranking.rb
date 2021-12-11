@@ -16,7 +16,7 @@ class CalculateRanking
   #   初学者向けである：タグに「初学者」「初心者」が含まれる　 ： 1000 * ( 初学者タグ数 + 初心者タグ数 )
   # command bundle exec rails runner CalculateRanking.update_point
   def self.update_point(term:)
-    field = (term + "_point").to_sym
+    field = "#{term}_point".to_sym
 
     ReccomendedBook.each do |book|
       article_count, recently_article_count, lgtm_count, beginner_count = CalculateRanking.calculate_term_point_elements(reccomended_book: book, term: term)
@@ -35,14 +35,14 @@ class CalculateRanking
   # command bundle exec rails runner CalculateRanking.update_ranking(term: "total")
   def self.update_ranking(term:)
     i = 1
-    point_kind = (term + "_point").to_sym
-    ranking_kind = (term + "_ranking").to_sym
+    point_kind = "#{term}_point".to_sym
+    ranking_kind = "#{term}_ranking".to_sym
 
     # NOTE : .order メソッドが使えないため sort_by
-    ids_and_points = ReccomendedBook.pluck(:id, point_kind).sort_by{|k,v| v}.reverse
+    ids_and_points = ReccomendedBook.pluck(:id, point_kind).sort_by {|_k, v| v }.reverse
     ids_and_points.each do |id_and_point|
       book = ReccomendedBook.find(id_and_point[0])
-      book.update(ranking_kind => i)
+      book.update!(ranking_kind => i)
       i += 1
     end
   end

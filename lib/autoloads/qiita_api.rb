@@ -36,7 +36,6 @@ class QiitaApi
   #                     private methods
   #
   # -----------------------------------------------------------
-  private
 
   # 記事取得
   def self.search_article(query, page:)

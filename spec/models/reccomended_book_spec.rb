@@ -28,18 +28,6 @@ RSpec.describe ReccomendedBook, type: :model do
       it { is_expected.to validate_numericality_of(:monthly_point).greater_than_or_equal_to(0) }
     end
 
-    context "total_ranking" do
-      it { is_expected.to validate_uniqueness_of(:total_ranking).scoped_to(:reccomend_book_id) }
-    end
-
-    context "yearly_ranking" do
-      it { is_expected.to validate_uniqueness_of(:yearly_ranking).scoped_to(:reccomend_book_id) }
-    end
-
-    context "monthly_ranking" do
-      it { is_expected.to validate_uniqueness_of(:monthly_ranking).scoped_to(:reccomend_book_id) }
-    end
-
     context "no qiita_article" do
       let(:reccomended_book) { build(:reccomended_book, :with_qiita_tag) }
 
