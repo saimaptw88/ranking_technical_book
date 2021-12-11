@@ -11,8 +11,9 @@ class QiitaApi
 
   # NOTE: 初回バッチ：バッチ処理実行前に実行する && 実行に日を跨がないよう注意
   # query = "created:<#{Time.current.beginning_of_day - 1.days}"
-  def self.execute(query: "created:>=2021-11-1 created:<=2021-11-30")
+  def self.execute
     next_page = 1
+    query = "created:>=2021-11-1 created:<=2021-11-30"
 
     100.times do
       _status, next_page, items = QiitaApi.search_article(query, page: next_page)
@@ -35,6 +36,7 @@ class QiitaApi
   #                     private methods
   #
   # -----------------------------------------------------------
+  private
 
   # 記事取得
   def self.search_article(query, page:)
@@ -60,40 +62,21 @@ class QiitaApi
 
   # 記事に技術書が含まれているか確認
   def self.include_technical_book?(item:)
-    Parallel.each(ReccomendedBook.all, in_threads: 10) do |book|
-      ActiveRecord::Base.connection_pool.with_connection do
-        next unless item["rendered_body"].include?(book.title) || item["title"].include?(book.title)
+    # NOTE : MongoDB は find_each が使えない、gem "parallel" が使えない
+    ReccomendedBook.each do |book|
+      next unless item["rendered_body"].include?(book.title) || item["title"].include?(book.title)
 
-        book.qiita_articles.create!(title: item["title"], lgtm_count: item["likes_count"], created_at: item["created_at"])
+      book.qiita_articles.create!(title: item["title"], lgtm_count: item["likes_count"], published_at: item["created_at"])
 
-        item["tags"].each do |tag|
-          if book.qiita_tags.pluck(:kind).include?(tag["name"])
-            qiita_tag = book.qiita_tags.find_by(kind: tag["name"])
-            qiita_tag.kind_count += 1
-            qiita_tag.save!
-          else
-            book.qiita_tags.create!(kind: tag["name"], kind_count: 1)
-          end
+      item["tags"].each do |tag|
+        if book.qiita_tags.pluck(:kind).include?(tag["name"])
+          qiita_tag = book.qiita_tags.find_by(kind: tag["name"])
+          qiita_tag.kind_count += 1
+          qiita_tag.save!
+        else
+          book.qiita_tags.create!(kind: tag["name"], kind_count: 1)
         end
       end
     end
-    # ReccomendedBook.each do |book|
-    #   next unless item["rendered_body"].include?(book.title) || item["title"].include?(book.title)
-
-    #   book.qiita_articles.create!(title: item["title"], lgtm_count: item["likes_count"], created_at: item["created_at"])
-
-    #   # Qiita のタグが同一記事内で重複しないことが前提
-    #   book_tags = book.qiita_tags.pluck(:kind)
-
-    #   item["tags"].each do |tag|
-    #     if book_tags.include?(tag["name"])
-    #       qiita_tag = book.qiita_tags.find_by(kind: tag["name"])
-    #       qiita_tag.kind_count += 1
-    #       qiita_tag.save!
-    #     else
-    #       book.qiita_tags.create!(kind: tag["name"], kind_count: 1)
-    #     end
-    #   end
-    # end
   end
 end
