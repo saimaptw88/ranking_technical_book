@@ -23,9 +23,6 @@ class ReccomendedBook
   validates :total_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :yearly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :monthly_point, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :total_ranking, uniqueness: { scope: [:reccomend_book_id] }, if: -> { total_ranking.present? }
-  validates :yearly_ranking, uniqueness: { scope: [:reccomend_book_id] }, if: -> { yearly_ranking.present? }
-  validates :monthly_ranking, uniqueness: { scope: [:reccomend_book_id] }, if: -> { monthly_ranking.present? }
 
   # アソシエーション
   has_many :qiita_articles, dependent: :destroy
