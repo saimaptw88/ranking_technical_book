@@ -21,6 +21,6 @@ class QiitaArticle
   end
 
   def published_before_this_year?
-    !self.is_published_at_this_year?
+    !self.published_at_this_year?
   end
 end
