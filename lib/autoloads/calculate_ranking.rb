@@ -19,7 +19,12 @@ class CalculateRanking
     field = "#{term}_point".to_sym
 
     ReccomendedBook.each do |book|
-      article_count, recently_article_count, lgtm_count, beginner_count = CalculateRanking.calculate_term_point_elements(reccomended_book: book, term: term)
+      articles = CalculateRanking.get_articles(reccomended_book: book, term: term)
+      article_count = articles.count
+      recently_article_count = CalculateRanking.get_recently_article_count(articles_id: articles.pluck(:id))
+      lgtm_count = articles.pluck(:lgtm_count).sum
+      beginner_count = CalculateRanking.get_beginner_count(reccomended_book: book)
+
       point = if term != "monthly"
                 100 * (article_count + recently_article_count) + lgtm_count + 1000 * beginner_count
               else
@@ -47,25 +52,9 @@ class CalculateRanking
     end
   end
 
-  # NOTE : term 引数は : "total", "yearly", "monthly"
-  def self.calculate_term_point_elements(reccomended_book:, term:)
-    return 0, 0, 0, 0 if reccomended_book.qiita_articles.blank?
-
-    articles = CalculateRanking.set_articles(reccomended_book: reccomended_book, term: term)
-
-    recently_article_count = CalculateRanking.recently_article_count(articles_id: articles.pluck(:id))
-
-    article_count = articles.count
-
-    lgtm_count = articles.pluck(:lgtm_count).sum
-
-    beginner_count = CalculateRanking.beginner_count(reccomended_book: reccomended_book)
-
-    return article_count, recently_article_count, lgtm_count, beginner_count
-  end
-
-  def self.set_articles(reccomended_book:, term:)
+  def self.get_articles(reccomended_book:, term:)
     articles = []
+
     # NOTE : mongoid は where("xx > ?", yy) の書き方ができない
     reccomended_book.qiita_articles.each do |article|
       articles << article if term == "total"
@@ -76,19 +65,18 @@ class CalculateRanking
     articles
   end
 
-  def self.recently_article_count(articles_id:)
-    articles = QiitaArticle.where(id: articles_id)
-
-    # NOTE : mongoid は where("xx > ?", yy) の書き方ができない
+  def self.get_recently_article_count(articles_id:)
     recently_article_count = 0
-    articles.each do |article|
-      recently_article_count += 1 if article.published_at_this_month?
+
+    # NOTE : mongoid は where("xx > ?", yy), where(id: articles_id) の書き方ができない
+    articles_id.each do |article_id|
+      recently_article_count += 1 if QiitaArticle.find(article_id).published_at_this_month?
     end
 
     recently_article_count
   end
 
-  def self.beginner_count(reccomended_book:)
+  def self.get_beginner_count(reccomended_book:)
     return 0 if reccomended_book.qiita_tags.blank?
 
     beginner_count = 0
