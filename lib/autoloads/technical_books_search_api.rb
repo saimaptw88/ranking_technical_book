@@ -74,6 +74,7 @@ class TechnicalBooksSearchApi
   end
 
   def self.isbn13(result:)
-    result["industryIdentifiers"].select {|i| i.values.include?("ISBN_13") }
+    isbn = result["industryIdentifiers"].select {|i| i.values.include?("ISBN_13") }
+    return isbn if isbn.present? && isbn[0].present? && (isbn = isbn[0]["identifier"].to_i).present?
   end
 end
