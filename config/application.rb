@@ -27,6 +27,7 @@ module RankingTechnicalBook
     config.autoload_paths += %W[#{config.root}/lib/autoloads]
     config.time_zone = "Tokyo"
 
+    config.x.cors_allowed_origins = ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8080')
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
