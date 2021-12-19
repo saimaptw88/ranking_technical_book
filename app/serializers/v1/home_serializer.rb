@@ -1,5 +1,5 @@
 class V1::HomeSerializer < ActiveModel::Serializer
-  attributes :id, :title, :publication_data, :author, :explanation, :thumbnail_url, :isbn
+  attributes :id, :title, :publication_data, :author, :explanation, :thumbnail_url
 
   def publication_data
     object.amazon_affiliate.publication_data
