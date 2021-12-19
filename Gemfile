@@ -24,7 +24,7 @@ gem "parallel"
 # https://github.com/jugend/amazon-ecs
 gem "amazon-ecs"
 
-gem 'active_model_serializers'
+gem "active_model_serializers"
 
 gem "dotenv-rails", groups: [:development, :test]
 gem "mongoid", "~> 7.0.5"
