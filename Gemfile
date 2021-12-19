@@ -17,12 +17,14 @@ gem "turbolinks", "~> 5"
 gem "jbuilder", "~> 2.7"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> s4.0'
-gem 'redis-rails'
+gem "redis-rails"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem "parallel"
 # https://github.com/jugend/amazon-ecs
 gem "amazon-ecs"
+
+gem "active_model_serializers"
 
 gem "dotenv-rails", groups: [:development, :test]
 gem "mongoid", "~> 7.0.5"

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "V1::Homes", type: :request do
   describe "GET /v1/home" do
@@ -16,5 +16,4 @@ RSpec.describe "V1::Homes", type: :request do
       expect(response).to have_http_status(:success)
     end
   end
-
 end
