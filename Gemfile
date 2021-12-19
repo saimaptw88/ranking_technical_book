@@ -30,6 +30,7 @@ gem "dotenv-rails", groups: [:development, :test]
 gem "mongoid", "~> 7.0.5"
 
 gem "rack-cors"
+gem "config"
 
 # https://github.com/dkam/paapi
 gem "paapi"
