@@ -16,7 +16,7 @@ gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.7"
 # Use Redis adapter to run Action Cable in production
-gem 'redis'
+gem "redis"
 gem "redis-rails"
 
 # Use Active Model has_secure_password
@@ -46,6 +46,7 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot_rails"
   gem "faker"
+  gem "mock_redis"
   gem "mongoid-rspec"
   gem "pry-byebug"
   gem "pry-doc"
@@ -53,7 +54,6 @@ group :development, :test do
   gem "rspec-rails", "~> 5.0.0"
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
-  gem "mock_redis"
 end
 
 group :development do
@@ -66,7 +66,7 @@ group :development do
 end
 
 group :production do
-  gem 'redis-rack-cache'
+  gem "redis-rack-cache"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

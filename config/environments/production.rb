@@ -6,7 +6,7 @@ Rails.application.configure do
 
   config.action_dispatch.rack_cache = {
     metastore: "redis://localhost:6379/1/metastore",
-    entitystore: "redis://localhost:6379/1/entitystore"
+    entitystore: "redis://localhost:6379/1/entitystore",
   }
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
