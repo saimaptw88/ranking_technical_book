@@ -53,6 +53,7 @@ group :development, :test do
   gem "rspec-rails", "~> 5.0.0"
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "mock_redis"
 end
 
 group :development do

@@ -170,6 +170,8 @@ GEM
     mime-types-data (3.2021.1115)
     mini_mime (1.1.2)
     minitest (5.14.4)
+    mock_redis (0.29.0)
+      ruby2_keywords
     mongo (2.16.0)
       bson (>= 4.8.2, < 5.0.0)
     mongoid (7.0.13)
@@ -308,6 +310,7 @@ GEM
     rubocop-rspec (2.5.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -371,6 +374,7 @@ DEPENDENCIES
   httparty
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  mock_redis
   mongoid (~> 7.0.5)
   mongoid-rspec
   paapi
