@@ -4,11 +4,18 @@ class V1::HomeController < ApplicationController
     # ids_and_points = ReccomendedBook.pluck(:id, :total_ranking).sort_by {|_k, v| v }.reverse
     # books = ids_and_points.first(5).map {|k, _v| ReccomendedBook.find(k) }
 
-    i = 0
+    # i = 0
     books = []
-    ReccomendedBook.each do |book|
-      books << book if i < 5
-      i += 1
+
+    # ReccomendedBook.each do |book|
+    #   books << book if i < 5
+    #   i += 1
+    # end
+    # binding.pry
+
+    5.times do |i|
+      id = Redis.current.get("total_ranking_#{i+1}")
+      books << ReccomendedBook.find(id)
     end
 
     render json: books, each_serializer: V1::HomeSerializer
