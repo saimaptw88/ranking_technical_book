@@ -44,6 +44,12 @@ jobs:
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
 
+    - name: Start Redis
+      run: node client.js
+      env:
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
+
     - name: Rubocop
       run: bundle exec rubocop --parallel
 
