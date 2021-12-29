@@ -1,10 +1,10 @@
 class V1::Ranking::TotalPointController < ApplicationController
   def index
-    i = 0
     total_points = []
-    ReccomendedBook.each do |book|
-      total_points << book.total_point if i < 5
-      i += 1
+
+    5.times do |i|
+      id = Redis.current.get("total_ranking_#{i + 1}").to_s
+      total_points << ReccomendedBook.find(id).total_point
     end
 
     render json: total_points

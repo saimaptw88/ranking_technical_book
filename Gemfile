@@ -16,8 +16,9 @@ gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.7"
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> s4.0'
+gem "redis"
 gem "redis-rails"
+
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem "parallel"
@@ -45,6 +46,7 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot_rails"
   gem "faker"
+  gem "mock_redis"
   gem "mongoid-rspec"
   gem "pry-byebug"
   gem "pry-doc"
@@ -61,6 +63,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
+end
+
+group :production do
+  gem "redis-rack-cache"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

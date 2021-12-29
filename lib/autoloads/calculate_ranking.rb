@@ -3,6 +3,8 @@ class CalculateRanking
   def self.execute
     terms = ["total", "yearly", "monthly"]
 
+    Redis.current.flushdb
+
     terms.each do |term|
       CalculateRanking.update_point(term: term)
       CalculateRanking.update_ranking(term: term)
@@ -48,6 +50,8 @@ class CalculateRanking
     ids_and_points.each do |id_and_point|
       book = ReccomendedBook.find(id_and_point[0])
       book.update!(ranking_kind => i)
+
+      Redis.current.set("#{ranking_kind}_#{i}", book.id)
       i += 1
     end
   end
