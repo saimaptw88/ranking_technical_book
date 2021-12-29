@@ -14,7 +14,7 @@ class V1::HomeController < ApplicationController
     # binding.pry
 
     5.times do |i|
-      id = Redis.current.get("total_ranking_#{i+1}")
+      id = Redis.current.get("total_ranking_#{i + 1}")
       books << ReccomendedBook.find(id)
     end
 
