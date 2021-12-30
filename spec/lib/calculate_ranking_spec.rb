@@ -155,54 +155,54 @@ describe CalculateRanking do
 
   # 各期間のポイントを更新
   # ランキングが正しく更新されていること
-  describe ".update_ranking(term:)" do
-    subject { CalculateRanking.update_ranking(term: term) }
+  # describe ".update_ranking(term:)" do
+  #   subject { CalculateRanking.update_ranking(term: term) }
 
-    context "term = total" do
-      before { ReccomendedBook.destroy_all }
+  #   context "term = total" do
+  #     before { ReccomendedBook.destroy_all }
 
-      let!(:article1) { create(:reccomended_book, total_point: 1) }
-      let!(:article2) { create(:reccomended_book, total_point: 2) }
-      let!(:article3) { create(:reccomended_book, total_point: 3) }
+  #     let!(:article1) { create(:reccomended_book, total_point: 1) }
+  #     let!(:article2) { create(:reccomended_book, total_point: 2) }
+  #     let!(:article3) { create(:reccomended_book, total_point: 3) }
 
-      let(:term) { "total" }
+  #     let(:term) { "total" }
 
-      it "ranking is correct" do
-        subject
-        expect(ReccomendedBook.pluck(:id, :total_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
-      end
-    end
+  #     it "ranking is correct" do
+  #       subject
+  #       expect(ReccomendedBook.pluck(:id, :total_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
+  #     end
+  #   end
 
-    context "term = yearly" do
-      before { ReccomendedBook.destroy_all }
+  #   context "term = yearly" do
+  #     before { ReccomendedBook.destroy_all }
 
-      let!(:article1) { create(:reccomended_book, yearly_point: 1) }
-      let!(:article2) { create(:reccomended_book, yearly_point: 2) }
-      let!(:article3) { create(:reccomended_book, yearly_point: 3) }
+  #     let!(:article1) { create(:reccomended_book, yearly_point: 1) }
+  #     let!(:article2) { create(:reccomended_book, yearly_point: 2) }
+  #     let!(:article3) { create(:reccomended_book, yearly_point: 3) }
 
-      let(:term) { "yearly" }
+  #     let(:term) { "yearly" }
 
-      it "ranking is correct" do
-        subject
-        expect(ReccomendedBook.pluck(:id, :yearly_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
-      end
-    end
+  #     it "ranking is correct" do
+  #       subject
+  #       expect(ReccomendedBook.pluck(:id, :yearly_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
+  #     end
+  #   end
 
-    context "term = monthly" do
-      before { ReccomendedBook.destroy_all }
+  #   context "term = monthly" do
+  #     before { ReccomendedBook.destroy_all }
 
-      let!(:article1) { create(:reccomended_book, monthly_point: 1) }
-      let!(:article2) { create(:reccomended_book, monthly_point: 2) }
-      let!(:article3) { create(:reccomended_book, monthly_point: 3) }
+  #     let!(:article1) { create(:reccomended_book, monthly_point: 1) }
+  #     let!(:article2) { create(:reccomended_book, monthly_point: 2) }
+  #     let!(:article3) { create(:reccomended_book, monthly_point: 3) }
 
-      let(:term) { "monthly" }
+  #     let(:term) { "monthly" }
 
-      it "ranking is correct" do
-        subject
-        expect(ReccomendedBook.pluck(:id, :monthly_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
-      end
-    end
-  end
+  #     it "ranking is correct" do
+  #       subject
+  #       expect(ReccomendedBook.pluck(:id, :monthly_ranking)).to eq [[article1.id, 3], [article2.id, 2], [article3.id, 1]]
+  #     end
+  #   end
+  # end
 
   # reccomended_book に紐づく記事を全て取得
   # NOTE : 同値クラステスト　境界値テスト
