@@ -20,6 +20,7 @@ gem "redis"
 gem "redis-rails"
 
 gem 'kaminari'
+gem 'kaminari-mongoid'
 
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
