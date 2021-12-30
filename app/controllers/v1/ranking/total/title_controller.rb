@@ -1,4 +1,4 @@
-class V1::Ranking::TitleController < ApplicationController
+class V1::Ranking::Total::TitleController < ApplicationController
   def index
     titles = []
 
