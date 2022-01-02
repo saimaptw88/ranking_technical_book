@@ -155,6 +155,21 @@ GEM
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jsonapi-renderer (0.2.2)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
+    kaminari-mongoid (1.0.2)
+      kaminari-core (~> 1.0)
+      mongoid
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -373,6 +388,8 @@ DEPENDENCIES
   faker
   httparty
   jbuilder (~> 2.7)
+  kaminari
+  kaminari-mongoid
   listen (~> 3.2)
   mock_redis
   mongoid (~> 7.0.5)
