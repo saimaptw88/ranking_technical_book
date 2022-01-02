@@ -2,7 +2,7 @@ class V1::Ranking::Monthly::ReccomendedBookController < ApplicationController
   def index
     books = []
 
-    5.times do |i|
+    25.times do |i|
       id = Redis.current.get("monthly_ranking_#{i + 1}")
       books << ReccomendedBook.find(id)
     end
