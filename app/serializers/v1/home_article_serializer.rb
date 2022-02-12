@@ -1,8 +1,8 @@
 class V1::HomeArticleSerializer < ActiveModel::Serializer
   attributes :id, :title, :publication_data, :author,
-  :explanation, :thumbnail_url, :affiliate_url,
-  :qiita_titles, :qiita_lgtm, :qiita_tags, :qiita_tag_titles,
-  :qiita_tag_count, :total_ranking, :yearly_ranking, :monthly_ranking
+             :explanation, :thumbnail_url, :affiliate_url,
+             :qiita_titles, :qiita_lgtm, :qiita_tags, :qiita_tag_titles,
+             :qiita_tag_count, :total_ranking, :yearly_ranking, :monthly_ranking
 
   def publication_data
     object.amazon_affiliate.publication_data
