@@ -39,6 +39,8 @@ gem "rack-cors"
 # https://github.com/dkam/paapi
 gem "paapi"
 
+gem 'whenever', require: false
+
 gem "httparty"
 
 # Reduces boot times through caching; required in config/boot.rb
