@@ -1,5 +1,6 @@
 require "net/http"
 require "json"
+require "date"
 
 class QiitaApi
   PER_PAGE = 100
@@ -12,8 +13,14 @@ class QiitaApi
   # NOTE: 初回バッチ：バッチ処理実行前に実行する && 実行に日を跨がないよう注意
   # query = "created:<#{Time.current.beginning_of_day - 1.days}"
   def self.execute
+    now = Time.zone.now
+    beginning_of_today = now.beginning_of_day
+    beginning_of_yesterday = now.yesterday.beginning_of_day
+
+    # query = "created:>=2021-12-1 created:<=2021-12-31"
+    query = "created:>=#{beginning_of_yesterday} created:<=#{beginning_of_today}"
+
     next_page = 1
-    query = "created:>=2021-11-1 created:<=2021-11-30"
 
     100.times do
       _status, next_page, items = QiitaApi.search_article(query, page: next_page)
@@ -59,14 +66,16 @@ class QiitaApi
     return res.code.to_i, next_page, JSON.parse(res.body)
   end
 
-  # 記事に技術書が含まれているか確認
+  # 記事に技術書が含まれているか？含まれている場合はQiitaレコード、QiitaTagレコード作成
   def self.include_technical_book?(item:)
     # NOTE : MongoDB は find_each が使えない、gem "parallel" が使えない
     ReccomendedBook.each do |book|
       next unless item["rendered_body"].include?(book.title) || item["title"].include?(book.title)
 
+      # 記事レコード作成
       book.qiita_articles.create!(title: item["title"], lgtm_count: item["likes_count"], published_at: item["created_at"])
 
+      # タグレコード作成
       item["tags"].each do |tag|
         if book.qiita_tags.pluck(:kind).include?(tag["name"])
           qiita_tag = book.qiita_tags.find_by(kind: tag["name"])
