@@ -39,7 +39,7 @@ gem "rack-cors"
 # https://github.com/dkam/paapi
 gem "paapi"
 
-gem 'whenever', require: false
+gem "whenever", require: false
 
 gem "httparty"
 

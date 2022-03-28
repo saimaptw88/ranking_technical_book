@@ -2,19 +2,16 @@
 # https://qiita.com/Esfahan/items/e7a924f7078faf3294f2
 
 require "active_support/core_ext/time"
-require File.expand_path(File.dirname(__FILE__) + "/environment")
+require File.expand_path("#{File.dirname(__FILE__)}/environment")
 
-
-rails_env = ENV['RAILS_ENV'] || :development
+rails_env = ENV["RAILS_ENV"] || :development
 set :environment, rails_env
-
 
 # 時刻の文字列を日本時間で解釈して、UTCに変換
 def jst(time)
   Time.zone = "Asia/Tokyo"
   Time.zone.parse(time).localtime("+00:00")
 end
-
 
 every 1.day, at: jst("1:00 am") do
   set :output, { error: "log/qiita_api_error.log", standard: "log/qiita_api_success.log" }
